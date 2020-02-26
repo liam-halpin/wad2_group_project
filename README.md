@@ -24,7 +24,7 @@ Ensure you are in the C:\Workspace\wad2_group_project directory, then run the fo
 
 `(bashmycode) ~$ python manage.py runserver`
 
-Now, navigate to http://127.0.0.1:8000/ using your browser.
+Now, navigate to <http://127.0.0.1:8000/> using your browser.
 
 ## Team Members
 
