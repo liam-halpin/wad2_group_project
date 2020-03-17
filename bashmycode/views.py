@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+<<<<<<< HEAD
 from django.http import HttpResponse
 from bashmycode.forms import UserForm, UserProfileForm
 from django.contrib.auth.models import User
@@ -7,44 +8,27 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+=======
+from django.contrib import messages
+from .forms import UserRegisterForm
+>>>>>>> updated register view
 
 def index(request):
     return render(request, 'bashmycode/index.html')
 
 def help(request):
-    return render(request, 'bashmycode/help.html')
+    return render(request, 'bashmycode/help.html', {'title': 'Help'})
 
 def register(request):
-    registered = False
-    
     if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            # Save the user to the database using the form data
-            user = user_form.save()
-
-            # Hash the password w/ set_password, then update user object
-            user.set_password(user.password)
-            user.save()
-
-            # Now sort the UserProfile instance
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            # If the user provided a profile image get it from input
-            # form and put it in model
-            if 'picture' in request.FILES:
-                profile_picture = request.FILES['picture']
-            
-            # Save the UserProfile model instance
-            profile.save()
-
-            registered = True    # Registration successfull
-        else:
-            print(user_form.errors, profile_form.errors)
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('index')
     else:
+<<<<<<< HEAD
         user_form = UserForm()
         profile_form = UserProfileForm()
     
@@ -91,3 +75,7 @@ class ProfileView(View):
 
         context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form}
         return render(request, 'bashmycode/profile.html', context_dict)
+=======
+        form = UserRegisterForm()
+    return render(request, 'bashmycode/register.html', {'form': form})
+>>>>>>> updated register view
