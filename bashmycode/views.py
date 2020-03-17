@@ -19,3 +19,52 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'bashmycode/register.html', {'form': form})
+
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'bashmycode/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+
+class ProfileView(View): 
+    def get_user_details(self, username): 
+        try: 
+            user = User.objects.get(username=username) 
+        except User.DoesNotExist: 
+            return None
+
+        user_profile = UserProfile.objects.get_or_create(user=user)[0] 
+        form = UserProfileForm({'website': user_profile.website, 'picture': user_profile.picture})
+        return (user, user_profile, form)
+
+
+    @method_decorator(login_required) 
+    def get(self, request, username): 
+        try: 
+            (user, user_profile, form) = self.get_user_details(username) 
+        except TypeError: 
+            return redirect(reverse('rango:index'))
+
+        context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form}
+        return render(request, 'bashmycode/profile.html', context_dict)
+
+
+    @method_decorator(login_required) 
+    def post(self, request, username): 
+        try: 
+            (user, user_profile, form) = self.get_user_details(username) 
+        except TypeError: 
+            return redirect(reverse('rango:index'))
+
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if form.is_valid(): 
+            form.save(commit=True) 
+            return redirect('rango:profile', user.username) 
+        else: 
+            print(form.errors)
+
+        context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form}
+        return render(request, 'bashmycode/profile.html', context_dict)
+        form = UserRegisterForm()
+    return render(request, 'bashmycode/register.html', {'form': form})
