@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-<<<<<<< HEAD
 from django.http import HttpResponse
 from bashmycode.forms import UserForm, UserProfileForm
 from django.contrib.auth.models import User
@@ -8,10 +7,8 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse
-=======
 from django.contrib import messages
 from .forms import UserRegisterForm
->>>>>>> updated register view
 
 def index(request):
     return render(request, 'bashmycode/index.html')
@@ -28,10 +25,9 @@ def register(request):
             messages.success(request, f'Account created for {username}!')
             return redirect('index')
     else:
-<<<<<<< HEAD
         user_form = UserForm()
         profile_form = UserProfileForm()
-    
+
     return render(request, 'bashmycode/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
@@ -75,7 +71,5 @@ class ProfileView(View):
 
         context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form}
         return render(request, 'bashmycode/profile.html', context_dict)
-=======
         form = UserRegisterForm()
     return render(request, 'bashmycode/register.html', {'form': form})
->>>>>>> updated register view
