@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm
+from .models import Post
 
 def index(request):
-    return render(request, 'bashmycode/index.html')
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(request, 'bashmycode/index.html', context)
+ 
 
 def help(request):
     return render(request, 'bashmycode/help.html', {'title': 'Help'})
@@ -19,3 +24,15 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'bashmycode/register.html', {'form': form})
+
+def bash(request):
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(request, 'bashmycode/bash.html', context)
+
+def help(request):
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(request, 'bashmycode/help.html', context)
