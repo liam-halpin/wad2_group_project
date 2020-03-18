@@ -1,9 +1,9 @@
-from django.urls import path
+from django.urls import path, reverse
 from bashmycode import views
-
 from django.contrib.auth import views as auth_views
-from django.urls import reverse
 from django.shortcuts import redirect
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'bashmycode'
 
@@ -19,4 +19,4 @@ urlpatterns = [
 
     path('bash/', views.bash, name='bash'),
     path('help/', views.help, name='help')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
