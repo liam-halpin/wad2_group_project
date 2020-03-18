@@ -1,22 +1,23 @@
-{% extends 'bashmycode/base.html' %}
-{% load static %}
+{% extends "bashmycode/base.html" %}
+{% load crispy_forms_tags %}
 
-{% block title_block %}
-    Register
-{% endblock %}
-
-{% block body_block %}
-    <h1>Register for BashMyCode</h1>
-    {% if registered %}
-        <strong>Thank you for registering!</strong>
-        <a href="{% url 'bashmycode:index' %}">Return to homepage.</a><br />
-    {% else %}
-        <strong>Register here!</strong><br />
-        <form id="user_form" method="post" action="{% url 'bashmycode:register' %}" enctype="multipart/form-data">
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
             {% csrf_token %}
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
-            <input type="submit" name="submit" value="Register"/>
+            <fieldset class="form-group">
+                <legend class=""></legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+            </div>  
         </form>
-    {% endif %}
-{% endblock %}
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have An Account?
+                <a class="ml-2" href="#">Sign In</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
