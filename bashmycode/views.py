@@ -22,12 +22,6 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'bashmycode/register.html', {'form': form})
 
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-
-    return render(request, 'bashmycode/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
-
-
 # class ProfileView(View): 
 #     def get_user_details(self, username): 
 #         try: 
