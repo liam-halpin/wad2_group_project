@@ -1,14 +1,31 @@
-{% extends "bashmycode/base.html" %}
-{% load crispy_forms_tags %}
+{% extends 'bashmycode/base.html' %}
 
 {% block content %}
+    <div class="container"> 
+        <h1 class="heading">{{ user.username }}'s Profile</h1> 
+    </div>
+
     <div class="content-section">
         <div class="media">
-            <img class="rounded-circle account-image" style="height:30px; width: 30px;" src="{{ user.profile.image.url }}">
+            <img class="rounded-circle account-image" height="100" width="300" src="{{ user.profile.image.url }}">
             <div class="media-body">
-                <h1 class="account-heading">{{ user.username }}</h1>
+                <h1 class="account-heading">{{ user.username }}'s Profile</h1>
                 <p class="text-secondary">{{ user.email }}</p>
             </div>
         </div>
-    </div>
+    <!-- <div>
+        {% if selected_user == user %}
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %} 
+            {{ form.as_p }}
+
+            <input type="submit" value="Update" />
+        </form>
+        {% else %}
+        <p>
+        <strong>Website:</strong> 
+        <a href=<a href="{% url 'bashmycode:login' %}">Go to login.</a><br />
+        </p> 
+        {% endif %}
+    </div>  -->
 {% endblock content %}
