@@ -1,4 +1,5 @@
 from django.contrib import admin
-from bashmycode.models import UserProfile
+from .models import Post, Profile
 
-# Register your models here.
+admin.site.register(Post)
+admin.site.register(Profile)
