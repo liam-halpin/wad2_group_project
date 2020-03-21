@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Post
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,14 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
     
 
 def bash(request):
