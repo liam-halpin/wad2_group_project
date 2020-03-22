@@ -15,6 +15,7 @@ class PostListViewBash(ListView):
     queryset = Post.objects.filter(post_type='BASH').order_by('-date_posted')
     template_name = 'bashmycode/bash.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
+    paginate_by = 2
 
 
 class PostListViewHelp(ListView):
@@ -22,6 +23,7 @@ class PostListViewHelp(ListView):
     queryset = Post.objects.filter(post_type='HELP').order_by('-date_posted')
     template_name = 'bashmycode/help.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
+    paginate_by = 2
 
 class PostDetailView(DetailView):
     model = Post
@@ -69,7 +71,6 @@ def help(request):
         'posts': Post.objects.filter(post_type='HELP').order_by('-date_posted')
     }
     return render(request, 'bashmycode/bash.html', context)
-
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
