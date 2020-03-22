@@ -15,6 +15,7 @@ class PostListViewBash(ListView):
     queryset = Post.objects.filter(post_type='BASH').order_by('-date_posted')
     template_name = 'bashmycode/bash.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
+    paginate_by = 5
 
 
 class PostListViewHelp(ListView):
@@ -22,6 +23,7 @@ class PostListViewHelp(ListView):
     queryset = Post.objects.filter(post_type='HELP').order_by('-date_posted')
     template_name = 'bashmycode/help.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
+    paginate_by = 5
 
 class PostDetailView(DetailView):
     model = Post
