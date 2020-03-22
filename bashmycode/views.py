@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Post
 from django.contrib.auth.decorators import login_required
@@ -9,10 +11,66 @@ def index(request):
         'posts': Post.objects.all()
     }
     return render(request, 'bashmycode/index.html', context)
- 
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'bashmycode/bash.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
+
+class PostDetailView(DetailView):
+    model = Post
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url = '/bashmycode/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+def bash(request):
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(request, 'bashmycode/bash.html', context)
 
 def help(request):
-    return render(request, 'bashmycode/help.html', {'title': 'Help'})
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(request, 'bashmycode/bash.html', context)
+
+
+
+
+
+
+
 
 def register(request):
     if request.method == 'POST':
@@ -25,12 +83,6 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'bashmycode/register.html', {'form': form})
-
-def bash(request):
-    context = {
-        'posts': Post.objects.all()
-    }
-    return render(request, 'bashmycode/bash.html', context)
 
 @login_required
 def profile(request):
@@ -52,35 +104,3 @@ def profile(request):
     }
 
     return render(request, 'bashmycode/profile.html', context)
-
-# def user_login(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(username=username, password=password)
-
-#         if user:
-#             if user.is_active:
-#                 login(request, user)
-#                 return redirect(reverse('bashmycode:index'))
-#             else:
-#                 return HttpResponse("Your BashMyCode account is disabled.")
-#         else:
-#             print(f"Invalid login details: {username}, {password}")
-#             return HttpResponse("Invalid login details supplied.")
-#     else:
-#         return render(request, 'bashmycode/login.html')
-
-# @login_required
-# def restricted(request):
-#     return HttpResponse("You are logged in")
-
-# @login_required
-# def user_logout(request):
-#     logout(request)
-#     return redirect(reverse('bashmycode:index'))
-# def help(request):
-#     context = {
-#         'posts': Post.objects.all()
-#     }
-#     return render(request, 'bashmycode/help.html', context)
