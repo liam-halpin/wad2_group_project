@@ -7,23 +7,28 @@ from .models import Post
 from django.contrib.auth.decorators import login_required
 
 def index(request):
-    context = {
-        'posts': Post.objects.all()
-    }
-    return render(request, 'bashmycode/index.html', context)
+    return render(request, 'bashmycode/index.html')
 
-class PostListView(ListView):
+# Bug here that displays all posts on bash (DOESN'T)
+class PostListViewBash(ListView):
     model = Post
+    queryset = Post.objects.filter(post_type='BASH').order_by('-date_posted')
     template_name = 'bashmycode/bash.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
-    ordering = ['-date_posted']
+
+
+class PostListViewHelp(ListView):
+    model = Post
+    queryset = Post.objects.filter(post_type='HELP').order_by('-date_posted')
+    template_name = 'bashmycode/help.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'posts'
 
 class PostDetailView(DetailView):
     model = Post
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'post_type']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -31,7 +36,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'post_type']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -55,22 +60,15 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def bash(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.filter(post_type='BASH').order_by('-date_posted')
     }
     return render(request, 'bashmycode/bash.html', context)
 
 def help(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.filter(post_type='HELP').order_by('-date_posted')
     }
     return render(request, 'bashmycode/bash.html', context)
-
-
-
-
-
-
-
 
 def register(request):
     if request.method == 'POST':
