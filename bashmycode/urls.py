@@ -1,5 +1,5 @@
 from django.urls import path, reverse
-from .views import PostListViewHelp, PostListViewBash, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from .views import PostListViewHelp, PostListViewBash, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView
 from bashmycode import views
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
@@ -21,6 +21,8 @@ urlpatterns = [
 
     path('bash/', PostListViewBash.as_view(), name='bash'),
     path('help/', PostListViewHelp.as_view(), name='help'),
+
+    path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
