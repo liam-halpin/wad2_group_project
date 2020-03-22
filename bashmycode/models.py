@@ -21,10 +21,15 @@ class Profile(models.Model):
 
 
 class Post(models.Model):
+    POST_CHOICES = [
+        ('HELP', 'HELP'),
+        ('BASH', 'BASH'),
+    ]
     title = models.CharField(max_length=100)
     content = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    post_type = models.CharField(max_length=4, blank=True, choices=POST_CHOICES)
     
     def __str__(self):
         return self.title
