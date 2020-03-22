@@ -1,58 +1,53 @@
 {% extends 'bashmycode/base.html' %}
-{% block title_block %}
-    Homepage
-{% endblock %}
 
+<head>
+  <style>
+        * {
+          box-sizing: border-box;
+        }
+      
+        .column {
+          float: left;
+          width: 50%;
+          padding: 15%;
+          height: 700px; 
+        }
+        .row{
+            height:100%;
+        }
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+      
+        @media screen and (max-width: 600px) {
+          .column {
+            width: 100%;
+          }
+        }
+    </style>
+</head>
 {% block content %}
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-.column {
-  float: left;
-  width: 50%;
-  padding: 15%;
-  height: 700px; 
-}
-.row{
-    height:100%;
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-  }
-}
-</style>
-
-<div class="row">
-    <div class="column" style="background-color:#ff0000;">
-        <center><h2><a class="nav-link" href="{% url 'bashmycode:bash' %}">BashMyCode</a></h2></center>
-        <center>
-            <strong>
-              Enter "BashMyCode" if you want humor related to
-              coding fails, and basically just a bit of a timewaster
-              and a laugh, not to be taken seriously!
-            </strong>
-        </center>
+    <div class="row">
+        <div class="column" style="background-color:#ff0000;">
+            <center><h2><a class="nav-link" href="{% url 'bashmycode:bash' %}">BashMyCode</a></h2></center>
+            <center>
+                <strong>
+                  Enter "BashMyCode" if you want humor related to
+                  coding fails, and basically just a bit of a timewaster
+                  and a laugh, not to be taken seriously!
+                </strong>
+            </center>
+        </div>
+        <div class="column" style="background-color:#ccebff;">
+            <center><h2><a class="nav-link" href="{% url 'bashmycode:help' %}">HelpMyCode</a></h2></center>
+            <center>
+                <strong>
+                  Enter "HelpMyCode" if you need help with improving your coding style/
+                  fixing errors that you have. No bullying is allowed in this page.
+                </strong>
+            </center>
+        </div>
     </div>
-    <div class="column" style="background-color:#ccebff;">
-        <center><h2><a class="nav-link" href="{% url 'bashmycode:help' %}">HelpMyCode</a></h2></center>
-        <center>
-            <strong>
-              Enter "HelpMyCode" if you need help with improving your coding style/
-              fixing errors that you have. No bullying is allowed in this page.
-            </strong>
-        </center>
-    </div>
-</div>
-
-
-{% endblock %}       
+{% endblock content %}       
