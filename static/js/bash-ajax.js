@@ -1,10 +1,10 @@
 $(document).ready(function() {
     $('#like_btn').click(function() {
-        var catecategoryIdVar;
-        catecategoryIdVar = $(this).attr('data-categoryid');
+        var catepostIdVar;
+        catepostIdVar = $(this).attr('data-postid');
         
         $.get('/rango/like_post/',
-            {'category_id': catecategoryIdVar},
+            {'post_id': catepostIdVar},
             function(data) {
                 $('#like_count').html(data);
                 $('#like_btn').hide();

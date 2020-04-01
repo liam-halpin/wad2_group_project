@@ -15,6 +15,7 @@ def index(request):
     return render(request, 'bashmycode/index.html')
 
 class PostListViewBash(ListView):
+    category_list = Post.objects.order_by('-likes')[:5]
     model = Post
     queryset = Post.objects.filter(post_type='BASH').order_by('-date_posted')
     template_name = 'bashmycode/bash.html'  # <app>/<model>_<viewtype>.html
@@ -23,6 +24,7 @@ class PostListViewBash(ListView):
 
 # SOMETHING WRONG WITH PAGINATION ON HELP
 class PostListViewHelp(ListView):
+    category_list = Post.objects.order_by('-likes')[:5]
     model = Post
     queryset = Post.objects.filter(post_type='HELP').order_by('-date_posted')
     template_name = 'bashmycode/help.html'  # <app>/<model>_<viewtype>.html
@@ -78,16 +80,16 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class LikePostView(View):
     def get(self, request):
-        category_id = request.GET['category_id']
+        post_id = request.GET['post_id']
         try:
-            category = Category.objects.get(id=int(category_id))
-        except Category.DoesNotExist:
+            post = Post.objects.get(id=int(post_id))
+        except Post.DoesNotExist:
             return HttpResponse(-1)
         except ValueError:
             return HttpResponse(-1)
-        category.likes = category.likes + 1
-        category.save()
-        return HttpResponse(category.likes)
+        post.likes = post.likes + 1
+        post.save()
+        return HttpResponse(Post.likes)
 
 
 def bash(request):
