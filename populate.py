@@ -19,5 +19,5 @@ def add_cat(name, views, likes):
     return c
 
 if __name__ == '__main__':
-    print('Starting Rango population script...')
+    print('Starting bashmycode population script...')
     populate()

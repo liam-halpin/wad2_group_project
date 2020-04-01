@@ -3,7 +3,7 @@ $(document).ready(function() {
         var catepostIdVar;
         catepostIdVar = $(this).attr('data-postid');
         
-        $.get('/rango/like_post/',
+        $.get('/bashmycode/like_post/',
             {'post_id': catepostIdVar},
             function(data) {
                 $('#like_count').html(data);
