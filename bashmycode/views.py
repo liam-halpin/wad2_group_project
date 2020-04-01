@@ -89,6 +89,7 @@ class LikePostView(View):
             return HttpResponse(-1)
         post.likes = post.likes + 1
         post.save()
+        
         return HttpResponse(post.likes)
 
 
