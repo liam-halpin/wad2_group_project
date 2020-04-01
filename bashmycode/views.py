@@ -6,6 +6,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Post
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.http import HttpResponse
+
+
 
 def index(request):
     return render(request, 'bashmycode/index.html')
@@ -70,6 +74,21 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+
+class LikePostView(View):
+    def get(self, request):
+        category_id = request.GET['category_id']
+        try:
+            category = Category.objects.get(id=int(category_id))
+        except Category.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        category.likes = category.likes + 1
+        category.save()
+        return HttpResponse(category.likes)
+
 
 def bash(request):
     context = {
