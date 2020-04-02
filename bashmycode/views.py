@@ -15,18 +15,16 @@ def index(request):
     return render(request, 'bashmycode/index.html')
 
 class PostListViewBash(ListView):
-    category_list = Post.objects.order_by('-likes')[:5]
     model = Post
-    queryset = Post.objects.filter(post_type='BASH').order_by('-date_posted')
+    queryset = Post.objects.filter(post_type='BASH').order_by('-likes')
     template_name = 'bashmycode/bash.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     paginate_by = 5
 
 # SOMETHING WRONG WITH PAGINATION ON HELP
 class PostListViewHelp(ListView):
-    category_list = Post.objects.order_by('-likes')[:5]
     model = Post
-    queryset = Post.objects.filter(post_type='HELP').order_by('-date_posted')
+    queryset = Post.objects.filter(post_type='HELP').order_by('-likes')
     template_name = 'bashmycode/help.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     paginate_by = 5
