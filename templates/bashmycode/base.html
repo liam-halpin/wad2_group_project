@@ -39,6 +39,8 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'bashmycode:index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'bashmycode:help' %}">Help</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'bashmycode:bash' %}">Bash</a></li>
+
                         {% if user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'bashmycode:post-create' %}">New Post</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'bashmycode:profile' %}">Profile</a></li>

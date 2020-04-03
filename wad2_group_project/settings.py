@@ -28,7 +28,7 @@ SECRET_KEY = 'b+(cwe065chx(n8us(+kc-=q1&e1o=@4p1!99s7^ukv78c_fzd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['mohibfd.pythonanywhere.com']
+ALLOWED_HOSTS = ['mohibfd.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
