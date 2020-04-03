@@ -30,6 +30,8 @@ class Post(models.Model):
     date_posted = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     post_type = models.CharField(max_length=4, blank=True, choices=POST_CHOICES)
+
+    likes = models.IntegerField(default=0)
     
     def __str__(self):
         return self.title

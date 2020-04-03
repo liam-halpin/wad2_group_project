@@ -6,13 +6,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Post
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.http import HttpResponse
+
+
 
 def index(request):
     return render(request, 'bashmycode/index.html')
 
 class PostListViewBash(ListView):
     model = Post
-    queryset = Post.objects.filter(post_type='BASH').order_by('-date_posted')
+    queryset = Post.objects.filter(post_type='BASH').order_by('-likes')
     template_name = 'bashmycode/bash.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     paginate_by = 5
@@ -20,7 +24,7 @@ class PostListViewBash(ListView):
 # SOMETHING WRONG WITH PAGINATION ON HELP
 class PostListViewHelp(ListView):
     model = Post
-    queryset = Post.objects.filter(post_type='HELP').order_by('-date_posted')
+    queryset = Post.objects.filter(post_type='HELP').order_by('-likes')
     template_name = 'bashmycode/help.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     paginate_by = 5
@@ -70,6 +74,22 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+
+class LikePostView(View):
+    def get(self, request):
+        post_id = request.GET['post_id']
+        try:
+            post = Post.objects.get(id=int(post_id))
+        except Post.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        post.likes = post.likes + 1
+        post.save()
+        
+        return HttpResponse(post.likes)
+
 
 def bash(request):
     context = {

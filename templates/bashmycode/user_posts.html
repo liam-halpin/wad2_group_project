@@ -11,6 +11,11 @@
                 </div>
                 <h2><a class="article-title" href="{% url 'bashmycode:post-detail' post.id %}">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.content }}</p>
+
+                <div>
+                    <strong id="like_count">{{ post.likes }}</strong> likes
+
+                </div>
             </div>
         </article>
     {% endfor %}
