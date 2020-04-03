@@ -133,7 +133,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR, ]
 
-MEDIA_ROOT = MEDIA_DIR
+MEDIA_ROOT = '/home/mohibfd/wad2_group_project/media/'
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
