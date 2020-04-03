@@ -1,4 +1,6 @@
 {% extends 'bashmycode/base.html' %}
+{% load static %}
+
 {% block content %}
     <h2>BashMyCode</h2>
     {% for post in posts %}
@@ -19,6 +21,8 @@
             </div>
         </article>
     {% endfor %}
+
+
     {% if is_paginated %}
         {% if page_obj.has_previous %}
             <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
